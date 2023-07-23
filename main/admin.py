@@ -1,16 +1,10 @@
 
 from django.contrib import admin
 
-from main.models import Product, Category
+from main.models import student
 
 
 # Register your models here.
-@admin.register(Product)
+@admin.register(student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'price', 'category',)
-    list_filter = ('category',)
-    search_fields = ('name', 'description',)
-
-@admin.register(Category)
-class StudentAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name',)
+    list_display = ('pk', 'name', 'description',)
