@@ -3,14 +3,20 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from main.models import student
+from main.models import blog, Product
 
 
 # Create your views here.
-class StudentListView(ListView):
-    model = student
+class ProductListView(ListView):
+    model = Product
     template_name = 'main/index.html'
     extra_context = {'title': 'Главная'}
+
+
+class BlogListView(ListView):
+    model = blog
+    template_name = 'main/view_blogs.html'
+    extra_context = {'title': 'Блоги'}
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
@@ -18,10 +24,10 @@ class StudentListView(ListView):
         return queryset
 
 
-class StudentCreateView(CreateView):
-    model = student
+class BlogCreateView(CreateView):
+    model = blog
     fields = ('name', 'description',)
-    success_url = reverse_lazy('main:index')
+    success_url = reverse_lazy('main:blogs')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -31,10 +37,10 @@ class StudentCreateView(CreateView):
         return super().form_valid(form)
 
 
-class StudentUpdateView(UpdateView):
-    model = student
+class BlogUpdateView(UpdateView):
+    model = blog
     fields = ('name', 'description',)
-    success_url = reverse_lazy(f'main:index')
+    success_url = reverse_lazy(f'main:blogs')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -47,8 +53,8 @@ class StudentUpdateView(UpdateView):
         return reverse('main:view', args=[self.kwargs.get('pk')])
 
 
-class StudentDetailView(DetailView):
-    model = student
+class BlogDetailView(DetailView):
+    model = blog
     extra_context = {'title': 'Материал'}
 
     def get_object(self, queryset=None):
@@ -58,9 +64,9 @@ class StudentDetailView(DetailView):
         return self.object
 
 
-class StudentDeleteView(DeleteView):
-    model = student
-    success_url = reverse_lazy('main:index')
+class BlogDeleteView(DeleteView):
+    model = blog
+    success_url = reverse_lazy('main:blogs')
 
 
 def contacts(request):
